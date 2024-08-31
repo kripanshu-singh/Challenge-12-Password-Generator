@@ -13,14 +13,25 @@ function App() {
     console.log(`\n ~ App ~ password :- `, passwordStatus);
 
     useEffect(() => {
-        if (password.length < 8) {
-            setPasswordStatus("Weak");
-        } else if (8 <= password.length && password.length < 12) {
-            setPasswordStatus("Moderate");
-        } else if (password.length >= 12) {
-            setPasswordStatus("Strong");
-        }
-    }, [password.length]);
+        const hasLowercase = password.toLowerCase() !== password;
+        const hasUppercase = password.toUpperCase() !== password;
+        const hasNumber = /\d/.test(password);
+        const hasSpecialChar = /[!@#$%^&*]/.test(password);
+
+        let score = 0;
+        if (password.length >= 8) score++;
+        if (hasLowercase) score++;
+        if (hasUppercase) score++;
+        if (hasNumber) score++;
+        if (hasSpecialChar) score++;
+
+        let passwordStatus;
+        if (score <= 2) passwordStatus = "Weak";
+        else if (score === 3) passwordStatus = "Moderate";
+        else passwordStatus = "Strong";
+
+        setPasswordStatus(passwordStatus);
+    }, [password]);
 
     const generator = useCallback(() => {
         let pass = "";
