@@ -103,7 +103,7 @@ button:hover {
 button:before {
     top: 100%;
     left: 100%;
-    transition: all 0.7s;
+    transition: all 0.5s;
 }
 
 button:hover:before {
@@ -113,5 +113,5 @@ button:hover:before {
 
 button:active:before {
     background: #2fa30c;
-    transition: background 0.2s;
+    transition: background 0.5s;
 }
