@@ -1,11 +1,13 @@
 import GeneratorCard from "./GeneratorCard";
+import Switcher3 from "./ToogleSwitch";
 
 function PasswordGenerator() {
     return (
         <>
-            <div className="text-center text-white">
+            <Switcher3 />
+            <div className="text-center text-gray-800 dark:text-white">
                 <div>
-                    <h1 className="text-4xl text-center text-white mb-8">
+                    <h1 className="text-4xl text-center mb-8 ">
                         Password Generator
                     </h1>
                 </div>

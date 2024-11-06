@@ -91,32 +91,34 @@ function GeneratorCard() {
             )}
 
             <div className="main py-2 rounded-3xl ">
-                <div className="inputField mb-5 flex justify-center items-center select-none mx-3">
+                {/* <div className="flex mb-3 gap-3 rounded-md"> */}
+                <div className="flex select-none w-full mb-3">
                     <input
-                        className="px-4 p-2 rounded-l outline-none w-full md:w-2/3  text-black flex-1 border-r-[1px] border-r-slate-600"
+                        className="px-4 p-2 rounded-l outline-none text-black flex-1 border-r-[1px] border-r-slate-600"
                         type="text"
                         readOnly
                         value={password}
                         placeholder="Password"
                         ref={passRef}
                     />
-                    <div className="cursor-pointer  bg-red-100 text-black rounded-r p-[0.65rem] mr-3 ">
-                        <RefreshCw
-                            className="  "
-                            onClick={() =>
-                                setPassword(generator(generatorParameters))
-                            }
-                        />
+                    <div
+                        className="cursor-pointer  bg-red-100 text-black rounded-r p-[0.65rem] mr-3 "
+                        onClick={() =>
+                            setPassword(generator(generatorParameters))
+                        }
+                    >
+                        <RefreshCw />
                     </div>
                     <button
-                        className="button rounded-xl p-2 px-3"
+                        className="button rounded p-2 px-3"
                         onClick={copy}
                     >
                         <span className="button-content rounded-xl">Copy</span>
                     </button>
+                    {/* </div> */}
                 </div>
                 <input
-                    className="px-4 p-2 mb-3 rounded outline-none w-[94%] text-black flex-1 border-r-[1px] border-r-slate-600"
+                    className="px-4 p-2 mb-3 rounded outline-none w-full text-black flex-1 border-r-[1px] border-r-slate-600"
                     type="text"
                     value={word}
                     placeholder="Enter a word"
@@ -143,22 +145,25 @@ function GeneratorCard() {
                         }
                     }}
                 />
+                <div className="flex h-10">
+                    <input
+                        type="range"
+                        min={4}
+                        max={14}
+                        value={length}
+                        onChange={(e) => {
+                            setLength(parseInt(e.target.value));
+                            trimOnLengthChange(e);
+                        }}
+                        name="range"
+                        id="range"
+                        className="mb-5 mr-3 cursor-pointer flex-1 self-end"
+                    />
+                    <label htmlFor="range" className="self-start">
+                        Length: {length}
+                    </label>
+                </div>
 
-                <input
-                    type="range"
-                    min={4}
-                    max={14}
-                    value={length}
-                    onChange={(e) => {
-                        setLength(parseInt(e.target.value));
-                        trimOnLengthChange(e);
-                    }}
-                    name="range"
-                    id="range"
-                    className="mb-5 mr-3 cursor-pointer w-2/3"
-                />
-
-                <label htmlFor="range">Length: {length}</label>
                 <div className="flex justify-center">
                     <span className="mr-10">
                         <input
@@ -205,7 +210,10 @@ function GeneratorCard() {
                         checked={selectedValue === "option2"}
                         onChange={handleRadioChange}
                     />
-                    <label htmlFor="uppercase" className="mr-4 ml-1">
+                    <label
+                        htmlFor="uppercase"
+                        className="mr-4 ml-1 cursor-pointer"
+                    >
                         Uppercase
                     </label>
                 </span>
@@ -219,7 +227,10 @@ function GeneratorCard() {
                         checked={selectedValue === "option3"}
                         onChange={handleRadioChange}
                     />
-                    <label htmlFor="lowercase" className="mr-4 ml-1">
+                    <label
+                        htmlFor="lowercase"
+                        className="mr-4 ml-1 cursor-pointer"
+                    >
                         Lowercase
                     </label>
                 </span>
@@ -233,7 +244,10 @@ function GeneratorCard() {
                         value="option1"
                         onChange={handleRadioChange}
                     />
-                    <label htmlFor="default" className="mr-4 ml-1">
+                    <label
+                        htmlFor="default"
+                        className="mr-4 ml-1 cursor-pointer"
+                    >
                         Both
                     </label>
                 </span>
