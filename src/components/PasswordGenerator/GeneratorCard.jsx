@@ -1,6 +1,8 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { CheckCircle, Ban, TriangleAlert, RefreshCw } from "lucide-react";
-import { generatePassword } from "./helper";
+// import { generatePassword } from "./helper";
+// import generatePassword from "generatepassword";
+import generatePassword from "@kripanshu-singh/generatepassword";
 
 function GeneratorCard() {
     const [passwordLength, setPasswordLength] = useState(8);
@@ -11,11 +13,12 @@ function GeneratorCard() {
     const [caseOption, setCaseOption] = useState("option1");
     const [passwordStrength, setPasswordStrength] = useState("");
 
-    const generatorConfig = {
-        length: passwordLength,
-        isNum: includeNumbers,
-        isChar: includeSpecialChars,
-        selectedValue: caseOption,
+    let generatorConfig = {
+        passwordLength,
+        includeNumbers,
+        isUppercase: caseOption === "option1" || caseOption === "option2",
+        isLowercase: caseOption === "option1" || caseOption === "option3",
+        includeSpecialChars,
         word: inputWord,
     };
 
@@ -62,7 +65,10 @@ function GeneratorCard() {
         setGeneratedPassword(
             generatePassword({
                 ...generatorConfig,
-                selectedValue: newCaseOption,
+                isUppercase:
+                    newCaseOption === "option1" || newCaseOption === "option2",
+                isLowercase:
+                    newCaseOption === "option1" || newCaseOption === "option3",
             })
         );
     };
@@ -108,11 +114,11 @@ function GeneratorCard() {
                     />
                     <div
                         className="cursor-pointer bg-red-100 text-black rounded-r p-[0.65rem] mr-3"
-                        onClick={() =>
+                        onClick={() => {
                             setGeneratedPassword(
                                 generatePassword(generatorConfig)
-                            )
-                        }
+                            );
+                        }}
                     >
                         <RefreshCw />
                     </div>

@@ -6,7 +6,9 @@ export function randomizeWord(inputWord) {
         const lowerChar = char.toLowerCase();
         if (wordArray[lowerChar]) {
             const randomReplacement =
-                wordArray[lowerChar][Math.floor(Math.random() * wordArray[lowerChar].length)];
+                wordArray[lowerChar][
+                    Math.floor(Math.random() * wordArray[lowerChar].length)
+                ];
             result += randomReplacement;
         } else {
             result += char;
@@ -18,15 +20,15 @@ export function randomizeWord(inputWord) {
 export const generatePassword = ({
     includeNumbers = false,
     includeSpecialChars = false,
-    length: desiredLength,
-    passwordCase,
+    isUppercase = true,
+    isLowercase = true,
+    passwordLength,
     word: inputWord,
 }) => {
     const wordLength = inputWord.length;
-    const length = desiredLength - wordLength;
-    const word = inputWord.replace(/\s+/g, "");
+    const length = passwordLength - wordLength;
+    let word = inputWord.replace(/\s+/g, "");
     let password = "";
-
     let charSet = "QWERTYUIOPLKJHGFDSAZXCVBNMqwertyuioplkjhgfdsazxcvbnm";
 
     if (includeNumbers) charSet += "1234567890";
@@ -56,15 +58,15 @@ export const generatePassword = ({
 
     const insertIndex = Math.floor(Math.random() * password.length);
     password =
-        password.substring(0, insertIndex) + word + password.substring(insertIndex);
+        password.substring(0, insertIndex) +
+        word +
+        password.substring(insertIndex);
 
-    switch (passwordCase) {
-        case "option2":
-            password = password.toUpperCase();
-            break;
-        case "option3":
-            password = password.toLowerCase();
-            break;
+    if (isUppercase && !isLowercase) {
+        password = password.toUpperCase();
+    }
+    if (isLowercase && !isUppercase) {
+        password = password.toLowerCase();
     }
 
     return password;
