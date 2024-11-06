@@ -19,7 +19,7 @@ function GeneratorCard() {
         isUppercase: caseOption === "option1" || caseOption === "option2",
         isLowercase: caseOption === "option1" || caseOption === "option3",
         includeSpecialChars,
-        word: inputWord,
+        inputWord,
     };
 
     useEffect(() => {
@@ -146,7 +146,7 @@ function GeneratorCard() {
                         setGeneratedPassword(
                             generatePassword({
                                 ...generatorConfig,
-                                word: newWord,
+                                inputWord: e.target.value,
                             })
                         );
                     }}
