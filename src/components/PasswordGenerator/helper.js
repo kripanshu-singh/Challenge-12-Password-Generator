@@ -1,14 +1,12 @@
 import { wordArray } from "./constant";
 
-export function randomizeWord(word) {
+export function randomizeWord(inputWord) {
     let result = "";
-    for (let char of word) {
-        let lowerChar = char.toLowerCase();
+    for (let char of inputWord) {
+        const lowerChar = char.toLowerCase();
         if (wordArray[lowerChar]) {
-            let randomReplacement =
-                wordArray[lowerChar][
-                    Math.floor(Math.random() * wordArray[lowerChar]?.length)
-                ];
+            const randomReplacement =
+                wordArray[lowerChar][Math.floor(Math.random() * wordArray[lowerChar].length)];
             result += randomReplacement;
         } else {
             result += char;
@@ -17,51 +15,57 @@ export function randomizeWord(word) {
     return result;
 }
 
-export const generator = ({
-    isNum = false,
-    isChar = false,
-    length,
-    selectedValue,
-    word,
+export const generatePassword = ({
+    includeNumbers = false,
+    includeSpecialChars = false,
+    length: desiredLength,
+    passwordCase,
+    word: inputWord,
 }) => {
-    length -= word.length;
-    word = word.replace(/\s+/g, "");
+    const wordLength = inputWord.length;
+    const length = desiredLength - wordLength;
+    const word = inputWord.replace(/\s+/g, "");
+    let password = "";
 
-    let pass = "";
-    let string = "QWERTYUIOPLKJHGFDSAZXCVBNMqwertyuioplkjhgfdsazxcvbnm";
+    let charSet = "QWERTYUIOPLKJHGFDSAZXCVBNMqwertyuioplkjhgfdsazxcvbnm";
 
-    if (isNum) string += "1234567890";
-    if (isChar) {
+    if (includeNumbers) charSet += "1234567890";
+    if (includeSpecialChars) {
+        const specialChars = "!@#$%^&*()-_=+[]{}|;:,.<>/?";
+        charSet += specialChars;
         word = randomizeWord(word);
-        string += "!@#$%^&*()-_=+[]{}|;:,.<>?";
     }
 
-    let len = string.length;
+    const charSetLength = charSet.length;
 
     for (let i = 0; i < length; i++) {
-        let random = Math.floor(Math.random() * len);
-        pass += string.charAt(random);
+        const randomIndex = Math.floor(Math.random() * charSetLength);
+        password += charSet.charAt(randomIndex);
     }
 
-    if (word.length) {
-        for (let i = 0; i < word.length / 2; i++) {
-            let ranNum = Math.floor(Math.random() * word.length);
-            let charToReplace = word[ranNum];
+    if (wordLength) {
+        for (let i = 0; i < wordLength / 2; i++) {
+            const randomIndex = Math.floor(Math.random() * wordLength);
+            const charToReplace = word[randomIndex];
             word =
-                word.substring(0, ranNum) +
+                word.substring(0, randomIndex) +
                 charToReplace.toUpperCase() +
-                word.substring(ranNum + 1);
+                word.substring(randomIndex + 1);
         }
     }
 
-    let ranPassWord = Math.floor(Math.random() * pass.length);
-    pass = pass.substring(0, ranPassWord) + word + pass.substring(ranPassWord);
+    const insertIndex = Math.floor(Math.random() * password.length);
+    password =
+        password.substring(0, insertIndex) + word + password.substring(insertIndex);
 
-    if (selectedValue === "option2") {
-        pass = pass.toUpperCase();
-    } else if (selectedValue === "option3") {
-        pass = pass.toLowerCase();
+    switch (passwordCase) {
+        case "option2":
+            password = password.toUpperCase();
+            break;
+        case "option3":
+            password = password.toLowerCase();
+            break;
     }
 
-    return pass;
+    return password;
 };

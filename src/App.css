@@ -1,6 +1,10 @@
 :root {
-    --bg-light: url(assets/BackWallpaper_light.jpg);
-    --bg-dark: url(assets/BackWallpaper_dark.jpg);
+    /* --bg-light: url(assets/Mojave Day.jpg);
+    --bg-dark: url(assets/Mojave night.jpg); */
+    --bg-light: url(assets/0.jpg);
+    --bg-dark: url(assets/1.jpg);
+    /* --bg-light: url(assets/BackWallpaper_light.jpg);
+    --bg-dark: url(assets/BackWallpaper_dark.jpg); */
     --color-light: #224;
     --color-dark: #fff;
     --card-bg-light: rgba(255, 255, 255, 0.192);
@@ -24,7 +28,8 @@ body {
     background-image: var(--bg-light);
     background-size: cover;
     background-repeat: no-repeat;
-    background-attachment: fixed;
+    background-attachment:fixed;
+    background-position-y: -18rem;
     transition: background-image 0.5s ease-in-out, color 0.5s ease-in-out;
 }
 

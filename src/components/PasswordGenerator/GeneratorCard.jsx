@@ -1,75 +1,81 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { CheckCircle, Ban, TriangleAlert, RefreshCw } from "lucide-react";
-import { generator } from "./helper";
+import { generatePassword } from "./helper";
 
 function GeneratorCard() {
-    const [length, setLength] = useState(8);
-    const [password, setPassword] = useState("");
-    const [word, setWord] = useState("");
-    const [isNum, setIsNum] = useState(false);
-    const [isChar, setIsChar] = useState(false);
-    const [selectedValue, setSelectedValue] = useState("option1");
-    const [passwordStatus, setPasswordStatus] = useState("");
-    const generatorParameters = {
-        length,
-        isNum,
-        isChar,
-        selectedValue,
-        word,
+    const [passwordLength, setPasswordLength] = useState(8);
+    const [generatedPassword, setGeneratedPassword] = useState("");
+    const [inputWord, setInputWord] = useState("");
+    const [includeNumbers, setIncludeNumbers] = useState(false);
+    const [includeSpecialChars, setIncludeSpecialChars] = useState(false);
+    const [caseOption, setCaseOption] = useState("option1");
+    const [passwordStrength, setPasswordStrength] = useState("");
+
+    const generatorConfig = {
+        length: passwordLength,
+        isNum: includeNumbers,
+        isChar: includeSpecialChars,
+        selectedValue: caseOption,
+        word: inputWord,
     };
 
     useEffect(() => {
-        const hasLowercase = password.toLowerCase() !== password;
-        const hasUppercase = password.toUpperCase() !== password;
-        const hasNumber = /\d/.test(password);
-        const hasSpecialChar = /[!@#$%^&*]/.test(password);
+        const hasLowercase =
+            generatedPassword.toLowerCase() !== generatedPassword;
+        const hasUppercase =
+            generatedPassword.toUpperCase() !== generatedPassword;
+        const hasNumber = /\d/.test(generatedPassword);
+        const hasSpecialChar = /[!@#$%^&*]/.test(generatedPassword);
 
-        let score = 0;
-        if (password.length >= 8) score++;
-        if (hasLowercase) score++;
-        if (hasUppercase) score++;
-        if (hasNumber) score++;
-        if (hasSpecialChar) score++;
+        let strengthScore = 0;
+        if (generatedPassword.length >= 8) strengthScore++;
+        if (hasLowercase) strengthScore++;
+        if (hasUppercase) strengthScore++;
+        if (hasNumber) strengthScore++;
+        if (hasSpecialChar) strengthScore++;
 
-        let passwordStatus;
-        if (score <= 2) passwordStatus = "Weak";
-        else if (score === 3) passwordStatus = "Moderate";
-        else passwordStatus = "Strong";
-
-        setPasswordStatus(passwordStatus);
-    }, [password]);
+        const strengthStatus =
+            strengthScore <= 2
+                ? "Weak"
+                : strengthScore === 3
+                ? "Moderate"
+                : "Strong";
+        setPasswordStrength(strengthStatus);
+    }, [generatedPassword]);
 
     useEffect(() => {
-        setPassword(generator({ ...generatorParameters, length }));
-    }, [length]);
+        setGeneratedPassword(
+            generatePassword({ ...generatorConfig, length: passwordLength })
+        );
+    }, [passwordLength]);
 
-    const passRef = useRef(null);
-    let copy = () => {
-        passRef.current.select();
-        window.navigator.clipboard.writeText(password);
+    const passwordRef = useRef(null);
+
+    const copyToClipboard = () => {
+        passwordRef.current.select();
+        window.navigator.clipboard.writeText(generatedPassword);
     };
 
-    const handleRadioChange = (event) => {
-        const newSelectedValue = event.target.value;
-        setSelectedValue(newSelectedValue);
-
-        setPassword(
-            generator({
-                ...generatorParameters,
-                selectedValue: newSelectedValue,
+    const handleCaseChange = (event) => {
+        const newCaseOption = event.target.value;
+        setCaseOption(newCaseOption);
+        setGeneratedPassword(
+            generatePassword({
+                ...generatorConfig,
+                selectedValue: newCaseOption,
             })
         );
     };
 
-    const trimOnLengthChange = (e) => {
-        if (e.target.value < word.length) {
-            setWord(word.slice(0, e.target.value));
+    const adjustWordLength = (event) => {
+        if (event.target.value < inputWord.length) {
+            setInputWord(inputWord.slice(0, event.target.value));
         }
     };
 
     return (
-        <div className="card rounded h-auto  flex justify-center">
-            {passwordStatus === "Moderate" && (
+        <div className="card rounded h-auto flex justify-center">
+            {passwordStrength === "Moderate" && (
                 <div className="flex mb-3 gap-3 p-2 rounded-md bg-yellow-200">
                     <Ban className="h-6 w-6 text-yellow-800" />
                     <p className="text-lg font-bold text-yellow-800">
@@ -77,71 +83,70 @@ function GeneratorCard() {
                     </p>
                 </div>
             )}
-            {passwordStatus === "Weak" && (
+            {passwordStrength === "Weak" && (
                 <div className="flex mb-3 gap-3 p-2 rounded-md bg-red-200">
                     <TriangleAlert className="h-6 w-6 text-red-800" />
                     <p className="text-lg font-bold text-red-800">Weak</p>
                 </div>
             )}
-            {passwordStatus === "Strong" && (
+            {passwordStrength === "Strong" && (
                 <div className="flex mb-3 gap-3 p-2 rounded-md bg-green-200">
                     <CheckCircle className="h-6 w-6 text-black" />
                     <p className="text-lg font-bold text-green-800">Strong</p>
                 </div>
             )}
 
-            <div className="main py-2 rounded-3xl ">
-                {/* <div className="flex mb-3 gap-3 rounded-md"> */}
+            <div className="main py-2 rounded-3xl">
                 <div className="flex select-none w-full mb-3">
                     <input
                         className="px-4 p-2 rounded-l outline-none text-black flex-1 border-r-[1px] border-r-slate-600"
                         type="text"
                         readOnly
-                        value={password}
+                        value={generatedPassword}
                         placeholder="Password"
-                        ref={passRef}
+                        ref={passwordRef}
                     />
                     <div
-                        className="cursor-pointer  bg-red-100 text-black rounded-r p-[0.65rem] mr-3 "
+                        className="cursor-pointer bg-red-100 text-black rounded-r p-[0.65rem] mr-3"
                         onClick={() =>
-                            setPassword(generator(generatorParameters))
+                            setGeneratedPassword(
+                                generatePassword(generatorConfig)
+                            )
                         }
                     >
                         <RefreshCw />
                     </div>
                     <button
                         className="button rounded p-2 px-3"
-                        onClick={copy}
+                        onClick={copyToClipboard}
                     >
                         <span className="button-content rounded-xl">Copy</span>
                     </button>
-                    {/* </div> */}
                 </div>
                 <input
                     className="px-4 p-2 mb-3 rounded outline-none w-full text-black flex-1 border-r-[1px] border-r-slate-600"
                     type="text"
-                    value={word}
+                    value={inputWord}
                     placeholder="Enter a word"
-                    disabled={word.length >= 14}
+                    disabled={inputWord.length >= 14}
                     onChange={(e) => {
                         const newWord = e.target.value;
-                        setWord(newWord);
+                        setInputWord(newWord);
 
-                        if (newWord.length > length) {
-                            setLength(newWord.length);
+                        if (newWord.length > passwordLength) {
+                            setPasswordLength(newWord.length);
                         }
 
-                        setPassword(
-                            generator({
-                                ...generatorParameters,
+                        setGeneratedPassword(
+                            generatePassword({
+                                ...generatorConfig,
                                 word: newWord,
                             })
                         );
                     }}
                     onKeyDown={(e) => {
-                        if (e.key === "Backspace" && word.length > 0) {
-                            const newLength = word.length - 1;
-                            setLength(newLength);
+                        if (e.key === "Backspace" && inputWord.length > 0) {
+                            setPasswordLength(inputWord.length - 1);
                         }
                     }}
                 />
@@ -150,17 +155,17 @@ function GeneratorCard() {
                         type="range"
                         min={4}
                         max={14}
-                        value={length}
+                        value={passwordLength}
                         onChange={(e) => {
-                            setLength(parseInt(e.target.value));
-                            trimOnLengthChange(e);
+                            setPasswordLength(parseInt(e.target.value));
+                            adjustWordLength(e);
                         }}
                         name="range"
                         id="range"
                         className="mb-5 mr-3 cursor-pointer flex-1 self-end"
                     />
                     <label htmlFor="range" className="self-start">
-                        Length: {length}
+                        Length: {passwordLength}
                     </label>
                 </div>
 
@@ -171,9 +176,12 @@ function GeneratorCard() {
                             id="number"
                             className="mx-1 cursor-pointer"
                             onClick={(e) => {
-                                setIsNum(e.target.checked);
-                                setPassword(
-                                    generator({ ...generatorParameters, isNum })
+                                setIncludeNumbers(e.target.checked);
+                                setGeneratedPassword(
+                                    generatePassword({
+                                        ...generatorConfig,
+                                        isNum: e.target.checked,
+                                    })
                                 );
                             }}
                         />
@@ -185,11 +193,11 @@ function GeneratorCard() {
                             id="char"
                             className="mx-1 cursor-pointer"
                             onClick={(e) => {
-                                setIsChar(e.target.checked);
-                                setPassword(
-                                    generator({
-                                        ...generatorParameters,
-                                        isChar,
+                                setIncludeSpecialChars(e.target.checked);
+                                setGeneratedPassword(
+                                    generatePassword({
+                                        ...generatorConfig,
+                                        isChar: e.target.checked,
                                     })
                                 );
                             }}
@@ -199,7 +207,7 @@ function GeneratorCard() {
                 </div>
             </div>
             <hr className="border-t border-dashed border-white-900 my-4" />
-            <div className="radios flex justify-self-center justify-center flex-wrap">
+            <div className="radios flex justify-center flex-wrap">
                 <span>
                     <input
                         className="cursor-pointer"
@@ -207,8 +215,8 @@ function GeneratorCard() {
                         name="Capital"
                         id="uppercase"
                         value="option2"
-                        checked={selectedValue === "option2"}
-                        onChange={handleRadioChange}
+                        checked={caseOption === "option2"}
+                        onChange={handleCaseChange}
                     />
                     <label
                         htmlFor="uppercase"
@@ -224,8 +232,8 @@ function GeneratorCard() {
                         name="Capital"
                         id="lowercase"
                         value="option3"
-                        checked={selectedValue === "option3"}
-                        onChange={handleRadioChange}
+                        checked={caseOption === "option3"}
+                        onChange={handleCaseChange}
                     />
                     <label
                         htmlFor="lowercase"
@@ -240,9 +248,9 @@ function GeneratorCard() {
                         type="radio"
                         name="Capital"
                         id="default"
-                        defaultChecked={true}
                         value="option1"
-                        onChange={handleRadioChange}
+                        defaultChecked={true}
+                        onChange={handleCaseChange}
                     />
                     <label
                         htmlFor="default"

@@ -5,9 +5,9 @@ function PasswordGenerator() {
     return (
         <>
             <Switcher3 />
-            <div className="text-center text-gray-700 dark:text-white">
+            <div className="text-center text-black dark:text-white">
                 <div>
-                    <h1 className="text-4xl text-center mb-8 ">
+                    <h1 className="text-4xl text-center mb-8 tra glass">
                         Password Generator
                     </h1>
                 </div>

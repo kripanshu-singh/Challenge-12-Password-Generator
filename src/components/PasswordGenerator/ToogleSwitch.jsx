@@ -11,7 +11,7 @@ const Switcher3 = () => {
     return (
         <>
             <label
-                className="flex select-none items-center absolute top-6 right-6 cursor-pointer"
+                className="flex select-none items-center absolute top-6 right-6 cursor-pointer "
                 // onClick={() => setDark(!dark)}
             >
                 <div className="relative">
@@ -23,16 +23,16 @@ const Switcher3 = () => {
                     />
                     {/* Background for the switch */}
                     <div
-                        className={`block h-6 w-11 rounded-full cursor-pointer transition ${
-                            dark ? "bg-gray-200" : "bg-sky-100"
+                        className={`block h-6 w-11 rounded-full cursor-pointer transition ring-2 shadow-md ${
+                            dark
+                                ? "bg-gray-800 shadow-white"
+                                : "bg-orange-100 ring-orange-200 shadow-black"
                         }`}
                     ></div>
                     {/* The dot that moves */}
                     <div
-                        className={`cursor-pointer dot absolute top-1 flex h-4 w-4 items-center justify-center rounded-full bg-white transition transform ${
-                            dark
-                                ? "translate-x-6 bg-gray-700"
-                                : "translate-x-1 bg-sky-400"
+                        className={`cursor-pointer dot absolute top-1 flex h-4 w-4 items-center justify-center rounded-full transition transform transparent ${
+                            dark ? "translate-x-6 " : "translate-x-1"
                         }`}
                     >
                         {/* Toggle between the active and inactive icons */}
