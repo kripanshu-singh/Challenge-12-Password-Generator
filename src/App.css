@@ -72,7 +72,7 @@ body.dark .card {
 }
 
 button {
-    --color: #35b435;
+    --color: #ffe2e3;
     font-family: inherit;
     display: inline-block;
     /* width: 2em; */
@@ -98,11 +98,12 @@ button:before {
     background: var(--color);
     height: 150px;
     width: 200px;
+    color: #fff;
     border-radius: 50%;
 }
 
 button:hover {
-    color: #fff;
+    color: #000;
 }
 
 button:before {
@@ -117,6 +118,6 @@ button:hover:before {
 }
 
 button:active:before {
-    background: #2fa30c;
+    background: #ffe2e3;
     transition: background 0.5s;
 }
