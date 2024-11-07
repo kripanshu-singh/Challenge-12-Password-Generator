@@ -11,7 +11,7 @@ const Switcher3 = () => {
     return (
         <>
             <label
-                className="flex select-none items-center absolute top-6 right-6 cursor-pointer "
+                className="flex select-none items-center absolute md:top-6 md:right-6 top-2 right-2 cursor-pointer "
                 // onClick={() => setDark(!dark)}
             >
                 <div className="relative">
@@ -23,7 +23,7 @@ const Switcher3 = () => {
                     />
                     {/* Background for the switch */}
                     <div
-                        className={`block h-6 w-11 rounded-full cursor-pointer transition ring-2 shadow-md ${
+                        className={`block h-6 w-11 rounded-full cursor-pointer transition ring-2 shadow-md opacity-50${
                             dark
                                 ? "bg-gray-800 shadow-white"
                                 : "bg-orange-100 ring-orange-200 shadow-black"

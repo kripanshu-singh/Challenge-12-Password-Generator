@@ -28,9 +28,9 @@ body {
     background-image: var(--bg-light);
     background-size: cover;
     background-repeat: no-repeat;
-    background-attachment:fixed;
-    background-position-y: -18rem;
+    background-attachment: fixed;
     transition: background-image 0.5s ease-in-out, color 0.5s ease-in-out;
+    background-position-y: -18rem;
 }
 
 /* Dark mode styles */
@@ -60,10 +60,11 @@ body.dark .card {
 }
 
 /* Media query for responsiveness */
-@media (max-width: 750px) {
+@media (max-width: 1080px) {
     body {
         overflow-y: hidden;
         overflow-x: hidden;
+        background-position-y: 0rem;
     }
     .card {
         max-height: 1000px;

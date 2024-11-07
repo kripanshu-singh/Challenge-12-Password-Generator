@@ -80,7 +80,7 @@ function GeneratorCard() {
     };
 
     return (
-        <div className="card rounded h-auto flex justify-center">
+        <div className="card rounded h-auto flex justify-center w-5/6 md:w-full">
             {passwordStrength === "Moderate" && (
                 <div className="flex mb-3 gap-3 p-2 rounded-md bg-yellow-200">
                     <Ban className="h-6 w-6 text-yellow-800" />
@@ -102,10 +102,10 @@ function GeneratorCard() {
                 </div>
             )}
 
-            <div className="main py-2 rounded-3xl">
-                <div className="flex select-none w-full mb-3">
+            <div className="main md:py-2 rounded-3xl">
+                <div className="flex select-none mb-3">
                     <input
-                        className="px-4 p-2 rounded-l outline-none text-black flex-1 border-r-[1px] border-r-slate-600"
+                        className="md:px-4 md:p-2 p-1 rounded-l outline-none text-black flex-1 border-r-[1px] border-r-slate-600 md:w-full w-5/6"
                         type="text"
                         readOnly
                         value={generatedPassword}
@@ -123,7 +123,7 @@ function GeneratorCard() {
                         <RefreshCw />
                     </div>
                     <button
-                        className="button rounded p-2 px-3"
+                        className="button rounded md:p-2 md:px-3 px-1"
                         onClick={copyToClipboard}
                     >
                         <span className="button-content rounded-xl">Copy</span>
@@ -175,8 +175,8 @@ function GeneratorCard() {
                     </label>
                 </div>
 
-                <div className="flex justify-center">
-                    <span className="mr-10">
+                <div className="flex justify-center flex-wrap">
+                    <span className="sm:mr-10 mr-5">
                         <input
                             type="checkbox"
                             id="number"
@@ -219,6 +219,23 @@ function GeneratorCard() {
                         className="cursor-pointer"
                         type="radio"
                         name="Capital"
+                        id="default"
+                        value="option1"
+                        defaultChecked={true}
+                        onChange={handleCaseChange}
+                    />
+                    <label
+                        htmlFor="default"
+                        className="mr-4 ml-1 cursor-pointer"
+                    >
+                        Both
+                    </label>
+                </span>
+                <span>
+                    <input
+                        className="cursor-pointer"
+                        type="radio"
+                        name="Capital"
                         id="uppercase"
                         value="option2"
                         checked={caseOption === "option2"}
@@ -246,23 +263,6 @@ function GeneratorCard() {
                         className="mr-4 ml-1 cursor-pointer"
                     >
                         Lowercase
-                    </label>
-                </span>
-                <span>
-                    <input
-                        className="cursor-pointer"
-                        type="radio"
-                        name="Capital"
-                        id="default"
-                        value="option1"
-                        defaultChecked={true}
-                        onChange={handleCaseChange}
-                    />
-                    <label
-                        htmlFor="default"
-                        className="mr-4 ml-1 cursor-pointer"
-                    >
-                        Both
                     </label>
                 </span>
             </div>
