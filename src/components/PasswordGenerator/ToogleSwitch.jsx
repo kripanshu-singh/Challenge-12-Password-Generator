@@ -11,7 +11,7 @@ const Switcher3 = () => {
     return (
         <>
             <label
-                className="flex select-none items-center absolute md:top-6 md:right-6 top-2 right-2 cursor-pointer "
+                className="flex select-none items-center absolute md:top-6 md:right-6 top-4 right-4 cursor-pointer "
                 // onClick={() => setDark(!dark)}
             >
                 <div className="relative">
