@@ -5,7 +5,7 @@ function PasswordGenerator() {
     return (
         <>
             <Switcher3 />
-            <div className="lex flex-col items-center text-center text-black dark:text-white md:mt-0 -mt-[6dvh]">
+            <div className="flex flex-col items-center text-center text-black dark:text-white md:mt-0 -mt-[6dvh]">
                 <div>
                     <h1 className="text-4xl text-center mb-8 tracking-[10px]">
                         Password Generator
