@@ -1,7 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { CheckCircle, Ban, TriangleAlert, RefreshCw } from "lucide-react";
-// import { generatePassword } from "./helper";
-// import generatePassword from "generatepassword";
+// import generatePassword from "./helper";
 import generatePassword from "@kripanshu-singh/generatepassword";
 
 function GeneratorCard() {

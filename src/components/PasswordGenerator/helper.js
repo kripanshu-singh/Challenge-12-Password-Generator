@@ -1,6 +1,6 @@
 import { wordArray } from "./constant";
 
-export function randomizeWord(inputWord) {
+function randomizeWord(inputWord) {
     let result = "";
     for (let char of inputWord) {
         const lowerChar = char.toLowerCase();
@@ -17,17 +17,19 @@ export function randomizeWord(inputWord) {
     return result;
 }
 
-export const generatePassword = ({
+const generatePassword = ({
     includeNumbers = false,
     includeSpecialChars = false,
     isUppercase = true,
     isLowercase = true,
-    passwordLength,
-    word: inputWord,
+    passwordLength = 8,
+    inputWord = "",
 }) => {
     const wordLength = inputWord.length;
     const length = passwordLength - wordLength;
-    let word = inputWord.replace(/\s+/g, "");
+    let word = inputWord.replace(/\s+/g, () =>
+        Math.random() < 0.5 ? "-" : "_"
+    );
     let password = "";
     let charSet = "QWERTYUIOPLKJHGFDSAZXCVBNMqwertyuioplkjhgfdsazxcvbnm";
 
@@ -71,3 +73,5 @@ export const generatePassword = ({
 
     return password;
 };
+
+export default generatePassword;
