@@ -133,7 +133,7 @@ function GeneratorCard() {
                     type="text"
                     value={inputWord}
                     placeholder="Enter a word"
-                    disabled={inputWord.length >= 14}
+                    disabled={inputWord.length >= 20}
                     onChange={(e) => {
                         const newWord = e.target.value;
                         setInputWord(newWord);
@@ -159,7 +159,7 @@ function GeneratorCard() {
                     <input
                         type="range"
                         min={4}
-                        max={14}
+                        max={20}
                         value={passwordLength}
                         onChange={(e) => {
                             setPasswordLength(parseInt(e.target.value));
