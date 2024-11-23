@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Toast from "../Toast";
 
 const Switcher3 = () => {
     const [dark, setDark] = useState(false);
@@ -10,6 +11,7 @@ const Switcher3 = () => {
 
     return (
         <>
+            <Toast />
             <label
                 className="flex select-none items-center absolute md:top-6 md:right-6 top-4 right-4 cursor-pointer "
                 // onClick={() => setDark(!dark)}

@@ -1,9 +1,9 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { CheckCircle, Ban, TriangleAlert, RefreshCw } from "lucide-react";
-// import generatePassword from "./helper";
 import generatePassword from "@kripanshu-singh/generatepassword";
+import Toast from "../Toast";
 
-function GeneratorCard() {
+function GeneratorCard({ setIsVisible }) {
     const [passwordLength, setPasswordLength] = useState(8);
     const [generatedPassword, setGeneratedPassword] = useState("");
     const [inputWord, setInputWord] = useState("");
@@ -11,6 +11,7 @@ function GeneratorCard() {
     const [includeSpecialChars, setIncludeSpecialChars] = useState(false);
     const [caseOption, setCaseOption] = useState("option1");
     const [passwordStrength, setPasswordStrength] = useState("");
+    const timeoutRef = useRef(null);
 
     let generatorConfig = {
         passwordLength,
@@ -56,6 +57,21 @@ function GeneratorCard() {
     const copyToClipboard = () => {
         passwordRef.current.select();
         window.navigator.clipboard.writeText(generatedPassword);
+        triggerToast();
+    };
+
+    const triggerToast = () => {
+        setIsVisible(true);
+
+        // Clear any existing timeout
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+        }
+
+        // Set a new timeout
+        timeoutRef.current = setTimeout(() => {
+            setIsVisible(false);
+        }, 2000);
     };
 
     const handleCaseChange = (event) => {
@@ -80,6 +96,7 @@ function GeneratorCard() {
 
     return (
         <div className="card rounded h-auto flex justify-center w-5/6 md:w-full">
+            {/* {!showToast && <Toast />} */}
             {passwordStrength === "Moderate" && (
                 <div className="flex mb-3 gap-3 p-2 rounded-md bg-yellow-200">
                     <Ban className="h-6 w-6 text-yellow-800" />
@@ -100,18 +117,30 @@ function GeneratorCard() {
                     <p className="text-lg font-bold text-green-800">Strong</p>
                 </div>
             )}
-
-            <div className="main md:py-2 rounded-3xl">
+            <div className="main md:py-2 rounded-3xl ">
                 <div className="flex select-none mb-3">
                     <input
-                        className="md:px-4 md:p-2 p-1 rounded-l outline-none text-black flex-1 border-r-[1px] border-r-slate-600 md:w-full w-5/6"
+                        className="md:px-4 md:p-2 p-1 outline-none text-black flex-1 md:w-full w-5/6 rounded-xl cursor-not-allowed dark:text-white"
                         type="text"
                         readOnly
+                        disabled={true}
                         value={generatedPassword}
-                        placeholder="Password"
                         ref={passwordRef}
                     />
-                    <div
+                    <button
+                        type="button"
+                        className="button cursor-pointer rounded-xl ml-1 mr-2 px-2"
+                        data-dismiss-target="#toast-success"
+                        aria-label="Close"
+                        onClick={() => {
+                            setGeneratedPassword(
+                                generatePassword(generatorConfig)
+                            );
+                        }}
+                    >
+                        <RefreshCw />
+                    </button>
+                    {/* <div
                         className="cursor-pointer bg-red-100 text-black rounded-r p-[0.65rem] mr-3"
                         onClick={() => {
                             setGeneratedPassword(
@@ -120,7 +149,7 @@ function GeneratorCard() {
                         }}
                     >
                         <RefreshCw />
-                    </div>
+                    </div> */}
                     <button
                         className="button rounded md:p-2 md:px-3 px-1"
                         onClick={copyToClipboard}
