@@ -32,6 +32,18 @@ body {
     transition: background-image 0.5s ease-in-out, color 0.5s ease-in-out;
     background-position-y: -18rem;
 }
+/* Preload the dark image offscreen */
+body::before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    background-image: var(--bg-dark);
+    background-size: cover;
+    background-repeat: no-repeat;
+    visibility: hidden;
+    pointer-events: none;
+}
 
 /* Dark mode styles */
 body.dark {
