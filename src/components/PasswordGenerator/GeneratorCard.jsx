@@ -154,7 +154,7 @@ function GeneratorCard({ setIsVisible }) {
                         className="button rounded md:p-2 md:px-3 px-1"
                         onClick={copyToClipboard}
                     >
-                        <span className="button-content rounded-xl">Copy</span>
+                        <span className="button-content rounded-xl">Use</span>
                     </button>
                 </div>
                 <input

@@ -24,7 +24,7 @@ const Toast = ({ isVisible }) => {
                         <span className="sr-only">Check icon</span>
                     </div>
                     <div className="ms-3 text-sm font-normal w-[50dvw] md:w-[20dvw]">
-                        Copied successfully
+                        Password Copied successfully
                     </div>
                 </div>
             </div>
